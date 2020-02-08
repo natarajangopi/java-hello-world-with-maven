@@ -9,6 +9,12 @@ stage('cloning repo'){
   checkout scm
 }
 
+stage('Tesing')
+  {
+     withSonarQubeEnv('Sonarqube') {
+         sh 'mvn clean test sonar:sonar'   
+    }
+  }
 stage('Build'){
 echo "Building app with name ${appName}"
 sh 'mvn clean install'
