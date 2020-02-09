@@ -19,7 +19,7 @@ node{
   stage('Renaming a jar')
   {
     def buildNumber=BUILD_NUMBER
-    def appVersion=MAJOR_VERSION+buildNumber
+    def appVersion=major_version+buildNumber
     sh "mv $WORKSPACE/target/jb*.jar $WORKSPACE/target/${appName}.jar"
     echo 'Application version is ${appName}.jar'
     sh 'ls -la target/'
