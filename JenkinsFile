@@ -10,6 +10,13 @@ node{
     checkout scm
   }
   
+  stage('Testing')
+  {
+   withSonarQubeEnv('Sonarqube')
+    {
+      sh 'mv clean test sonar:sonar'
+    }
+  }
   stage('Build repo')
   {
     echo 'application name is $appName'
