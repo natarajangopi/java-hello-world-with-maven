@@ -5,35 +5,23 @@ def major_version = 1.0
 
 node{ 
 
-stage('cloning repo'){
-  checkout scm
-}
-
-stage('Tesing')
+  stage('Clone repo')
   {
-     withSonarQubeEnv('Sonarqube') {
-         sh 'mvn clean test sonar:sonar'   
-    }
+    checkout scm
   }
- 
-stage('Quality Gate') {
-timeout(time: 1, unit: 'HOURS') {
-def qg = waitForQualityGate()
-if (qg.status != 'OK') {
-error "Pipeline aborted due to quality gate failure: ${qg.status}"
-}
-}
-}
-stage('Build'){
-echo "Building app with name ${appName}"
-sh 'mvn clean install'
-}
   
-  stage('renaming jar'){
-    def build_number =  BUILD_NUMBER
-    def appVersion = major_version + build_number
+  stage('Build repo')
+  {
+    echo 'application name is $appName'
+    sh 'mvn clean install'
+  }
+  
+  stage('Renaming a jar')
+  {
+    def buildNumber=BUILD_NUMBER
+    def appVersion=MAJOR_VERSION+buildNumber
     sh "mv $WORKSPACE/target/jb*.jar $WORKSPACE/target/${appName}.jar"
-    echo "The current application name is ${appName}.jar"
+    echo 'Application version is ${appName}.jar'
     sh 'ls -la target/'
   }
   
