@@ -14,7 +14,7 @@ node{
   {
    withSonarQubeEnv('Sonarqube')
     {
-      sh 'mv clean test sonar:sonar'
+      sh 'mvn clean test sonar:sonar'
     }
   }
   stage('Build repo')
